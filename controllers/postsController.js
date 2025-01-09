@@ -90,18 +90,30 @@ function update(req, res) {
 //destroy
 function destroy(req, res) {
   const id = parseInt(req.params.id);
+  const sql = "DELETE FROM `posts` WHERE `id`=?";
+  connection.query(sql, [id], (err) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ error: "La query non è andata a buon fine" });
+    }
+    res.sendStatus(204);
+  });
 
-  const post = postsData.find((post) => post.id === id);
+  // const id = parseInt(req.params.id);
 
-  if (!post) {
-    res.status(418).json({ error: "Post non trovato, sono solo una teiera" });
-  }
-  const postIndex = postsData.indexOf(post);
+  // const post = postsData.find((post) => post.id === id);
 
-  postsData.splice(postIndex, 1);
+  // if (!post) {
+  //   res.status(418).json({ error: "Post non trovato, sono solo una teiera" });
+  // }
+  // const postIndex = postsData.indexOf(post);
 
-  console.log(postsData);
-  res.sendStatus(204);
+  // postsData.splice(postIndex, 1);
+
+  // console.log(postsData);
+  // res.sendStatus(204);
 }
 
 module.exports = { index, show, store, update, destroy };
