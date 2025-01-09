@@ -1,4 +1,4 @@
-const postsData = require("../db/conn");
+const postsData = require("../db/conn.js");
 
 //index
 function index(req, res) {
