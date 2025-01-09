@@ -1,22 +1,33 @@
-const postsData = require("../db/conn.js");
+const connection = require("../db/conn.js");
 
 //index
 function index(req, res) {
-  const { tags, titolo } = req.query;
+  let sql = "SELECT * FROM `posts`";
 
-  let filteredPosts = [...postsData];
+  connection.query(sql, (err, results) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(500)
+        .json({ error: "La query non è andata a buon fine" });
+    }
+    res.json(results);
+  });
+  // const { tags, titolo } = req.query;
 
-  if (tags) {
-    filteredPosts = filteredPosts.filter((post) => post.tags.includes(tags));
-  }
+  // let filteredPosts = [...postsData];
 
-  if (titolo) {
-    filteredPosts = filteredPosts.filter(
-      (post) => post.titolo.toLowerCase() === titolo.toLowerCase()
-    );
-  }
+  // if (tags) {
+  //   filteredPosts = filteredPosts.filter((post) => post.tags.includes(tags));
+  // }
 
-  res.json(filteredPosts);
+  // if (titolo) {
+  //   filteredPosts = filteredPosts.filter(
+  //     (post) => post.titolo.toLowerCase() === titolo.toLowerCase()
+  //   );
+  // }
+
+  // res.json(filteredPosts);
 }
 
 //show
